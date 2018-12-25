@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorRightButtonBG">#ffbf00</color>
+    <color name="colorRightButtonTxt">#fafafa</color>
+    <!-- num button -->
+    <color name="colorNumButtonBG">#e9e9e4</color>
+    <color name="colorNumButtonTxt">#030303</color>
+    <color name="colorTextResuls">#fafafa</color>
+    <color name="textResultBR">#acaca4</color>
+</resources>
