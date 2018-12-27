@@ -1,5 +1,7 @@
 package com.example.jiren.calculator;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultTextView = findViewById(R.id.txtResult);
         mTableLayout = findViewById(R.id.table_Layout);
         setEvenButton();
+        resultTextView.setText(String.valueOf(getResult()));
     }
 
     private void setEvenButton() {
@@ -63,15 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String result = resultTextView.getText().toString();
             if (buttonNumber != -1) {
 
-                if ("0".equalsIgnoreCase(result)
-                        || "+".equalsIgnoreCase(operator)
-                        || "x".equalsIgnoreCase(operator)
-                        || "-".equalsIgnoreCase(operator)
-                        || "/".equalsIgnoreCase(operator)) {
-                    resultTextView.setText(strTextButton);
-                } else {
-                    resultTextView.setText(result + strTextButton);
+                if (Double.parseDouble(result)-0==0) {
+                    result="";
                 }
+
+                resultTextView.setText(result + strTextButton);
             } else if ("+".equalsIgnoreCase(strTextButton)
                     || "-".equalsIgnoreCase(strTextButton)
                     || "x".equalsIgnoreCase(strTextButton)
@@ -85,15 +84,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 firstNumber = Double.parseDouble(result);
                 Log.e(TAG, "onClick: " + firstNumber + " " + secondNumber);
                 operator = strTextButton;
+                resultTextView.setText("0");
             } else if ("=".equals(strTextButton)) {
 
                 secondNumber = Double.parseDouble(result);
                 functionEquals();
-            }
-            else if("AC".equalsIgnoreCase(strTextButton)) clearResult();
-            else if("%".equals(strTextButton)){
-                Log.e(TAG, "onClick: %%%%%%%%%%"+result );
-                double phantram= Double.parseDouble(result)/100;
+            } else if ("AC".equalsIgnoreCase(strTextButton)) {
+                clearResult();
+            } else if ("%".equals(strTextButton)) {
+                Log.e(TAG, "onClick: %%%%%%%%%%" + result);
+                double phantram = Double.parseDouble(result) / 100;
                 resultTextView.setText(String.valueOf(phantram));
             }
            /* else if ("+/-".equals(strTextButton))
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menuClear) clearResult();
-        if (item.getItemId() == R.id.menuSaveResult) resultTextView.setText("23123123");
+        if (item.getItemId() == R.id.menuSaveResult) saveResult();
         return super.onOptionsItemSelected(item);
     }
 
@@ -157,5 +157,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         secondNumber = Double.MIN_VALUE;
         resultTextView.setText("0");
         operator = null;
+    }
+
+    public void saveResult() {
+        SharedPreferences mSharedPreferences =
+                MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putFloat(getString(R.string.result),
+                Float.parseFloat(resultTextView.getText().toString()));
+        editor.commit();
+    }
+
+    public double getResult() {
+
+        SharedPreferences sharedPreferences =
+                MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+        float fResult = sharedPreferences.getFloat(getString(R.string.result), (float) 0);
+        return (double) fResult;
     }
 }

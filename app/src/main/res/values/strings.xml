@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Calculator</string>
     <string name="menu_actionbar_clear">Clear</string>
+    <string name="result">RESULT</string>
 </resources>
